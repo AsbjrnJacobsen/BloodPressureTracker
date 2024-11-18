@@ -2,6 +2,61 @@ services:
   structurizr:
     image: structurizr/lite
     ports:
-      - "8080:8080"
+      - "8282:8080"
     volumes:
       - ./docs:/usr/local/structurizr
+        
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'BPT'
+      MYSQL_USER: 'sa'
+      MYSQL_PASSWORD: 'pepsi1234'
+      MYSQL_ROOT_PASSWORD: 'pepsi1234'
+    ports:
+      - '8181:3306'
+    expose:
+      - '3306'
+    volumes:
+      - BPTloc:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 6s
+      retries: 5
+      start_period: 5s
+      timeout: 1s
+
+  migration-runner:
+    build:
+      context: .
+      dockerfile: "Data_and_Models/Migration.Dockerfile"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ConString: "server=db;database=BPT;user=sa;password=pepsi1234;"
+  patientservice:
+    build:
+      context: .
+      dockerfile: PatientService/Dockerfile
+    ports:
+      - 8404:8080
+    environment:
+      ConString: "server=db;database=BPT;user=sa;password=pepsi1234;"
+    depends_on:
+      migration-runner:
+        condition: service_completed_successfully
+  measurementservice:
+    build:
+      context: .
+      dockerfile: MeasurementService/Dockerfile
+    ports:
+      - 8303:8080
+    environment:
+      ConString: "server=db;database=BPT;user=sa;password=pepsi1234;"
+    depends_on:
+      migration-runner:
+        condition: service_completed_successfully
+volumes:
+  BPTloc:
