@@ -21,7 +21,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0' # Change to your project's .NET version if needed
+          dotnet-version: '8.0' # Specify your .NET version
 
       # Step 3: Restore dependencies
       - name: Restore dependencies
@@ -34,3 +34,18 @@ jobs:
       # Step 5: Run tests
       - name: Run tests
         run: dotnet test --no-build --verbosity normal
+
+      # Step 6: Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 7: Build the Docker image
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/bloodpressuretracker:latest .
+
+      # Step 8: Push the Docker image to Docker Hub
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/bloodpressuretracker:latest
