@@ -1,4 +1,11 @@
 services:
+  featurehub:
+    image: featurehub/party-server:latest
+    restart: always
+    ports:
+    - 8085:8085
+    volumes:
+      - featurehub-h2-data:/data
   structurizr:
     image: structurizr/lite
     ports:
@@ -41,8 +48,9 @@ services:
       context: .
       dockerfile: PatientService/Dockerfile
     ports:
-      - 8404:8080
+      - "8404:8080"
     environment:
+      fhubkey: "791fd315-fa30-4664-98c5-6f5179e99101/KInpGxLPfihg1EIUjnwdZILtbW1pwl*hFZlbxrxo9DrGsN0glKk"
       ConString: "server=db;database=BPT;user=sa;password=pepsi1234;"
     depends_on:
       migration-runner:
@@ -52,11 +60,14 @@ services:
       context: .
       dockerfile: MeasurementService/Dockerfile
     ports:
-      - 8303:8080
+      - '8303:8080'
     environment:
+      fhubkey: "791fd315-fa30-4664-98c5-6f5179e99101/KInpGxLPfihg1EIUjnwdZILtbW1pwl*hFZlbxrxo9DrGsN0glKk"
       ConString: "server=db;database=BPT;user=sa;password=pepsi1234;"
     depends_on:
       migration-runner:
         condition: service_completed_successfully
 volumes:
   BPTloc:
+  featurehub:
+  featurehub-h2-data:
