@@ -44,18 +44,18 @@ jobs:
 
       # Step 7: Build the Docker image
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/MeasurementService:latest MeasurementService/
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/measurementservice:latest MeasurementService/
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/PatientService:latest PatientService/
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/patientservice:latest PatientService/
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/BPTMigration:latest Data_and_Models/Migration.Dockerfile
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/bptmigration:latest Data_and_Models/Migration.Dockerfile
 
       # Step 8: Push the Docker image to Docker Hub
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/MeasurementService:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/measurementservice:latest
       
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/PatientService:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/patientservice:latest
       
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/BPTMigration:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/bptmigration:latest
