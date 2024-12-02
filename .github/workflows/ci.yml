@@ -32,11 +32,17 @@ jobs:
         run: dotnet build --no-restore
 
       # Step 5: Migrate Database
-      - name: Make the script executable
-        run: chmod +x ./Data_and_Models/run-ef-update-database.sh
-      
+      - name: Fix permissions for Data_and_Models
+        run: chmod -R 755 ./Data_and_Models
+
+      - name: Install dotnet-ef
+        run: dotnet tool install --global dotnet-ef
+        env:
+          DOTNET_ROOT: /usr/share/dotnet
+
       - name: Run database migrations
-        run: ./Data_and_Models/run-ef-update-database.sh
+        working-directory: ./Data_and_Models
+        run: dotnet ef database update
 
       # Step 6: Log in to Docker Hub
       - name: Log in to Docker Hub
