@@ -32,8 +32,11 @@ jobs:
         run: dotnet build --no-restore
 
       # Step 5: Migrate Database
+      - name: Make the script executable
+        run: chmod +x ./Data_and_Models/run-ef-update-database.sh
+      
       - name: Run database migrations
-        run: dotnet ef database update
+        run: ./Data_and_Models/run-ef-update-database.sh
 
       # Step 6: Log in to Docker Hub
       - name: Log in to Docker Hub
