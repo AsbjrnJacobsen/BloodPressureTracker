@@ -7,7 +7,7 @@ namespace PatientService;
 [ApiController]
 [Route("api/[controller]")]
 [ServiceFilter(typeof(FeatureFlagFilter))]
-public class PatientController(IPatientRepository patientRepository, IClientContext fhub) : ControllerBase
+public class PatientController(IPatientRepository patientRepository) : ControllerBase
 {
     [HttpPost("create")]
     public async Task<IActionResult> CreatePatient([FromBody] Patient patient)

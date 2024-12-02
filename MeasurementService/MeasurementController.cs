@@ -7,7 +7,7 @@ namespace MeasurementService;
 [ApiController]
 [Route("api/[controller]")]
 [ServiceFilter(typeof(FeatureFlagFilter))]
-public class MeasurementController(IMeasurementRepository measurementRepository, IClientContext fhub) : ControllerBase
+public class MeasurementController(IMeasurementRepository measurementRepository) : ControllerBase
 {
     [HttpPost("add")]
     public async Task<IActionResult> AddMeasurement([FromBody] Measurement measurement)

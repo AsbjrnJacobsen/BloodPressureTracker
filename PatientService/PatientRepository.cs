@@ -28,9 +28,7 @@ public class PatientRepository : IPatientRepository
     public async Task<Patient> UpdatePatientAsync(string SSN, Patient patient)
     {
         var existingPatient = await GetPatientAsync(SSN);
-        if (existingPatient == null) 
-            return null;
-
+        
         existingPatient.SSN = patient.SSN;
         existingPatient.Name = patient.Name;
         existingPatient.Email = patient.Email;
