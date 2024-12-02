@@ -52,4 +52,10 @@ jobs:
 
       # Step 8: Push the Docker image to Docker Hub
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/bloodpressuretracker:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/MeasurementService:latest
+      
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/PatientService:latest
+      
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/BPTMigration:latest
