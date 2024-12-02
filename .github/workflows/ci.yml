@@ -32,17 +32,7 @@ jobs:
         run: dotnet build --no-restore
 
       # Step 5: Migrate Database
-      - name: Fix permissions for Data_and_Models
-        run: chmod -R 755 ./Data_and_Models
-
-      - name: Install dotnet-ef
-        run: dotnet tool install --global dotnet-ef
-        env:
-          DOTNET_ROOT: /usr/share/dotnet
-
-      - name: Run database migrations
-        working-directory: ./Data_and_Models
-        run: dotnet ef database update
+      # I dont need a db migrations anyway. Mig runner runs, when composing :)
 
       # Step 6: Log in to Docker Hub
       - name: Log in to Docker Hub
